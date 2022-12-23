@@ -28,11 +28,17 @@ app.get("/api/:date?", function (req, res) {
   let date = req.params.date
   let isUnixDate = moment(date, 'X', true).isValid();
   let isUtcDate = moment(date, 'YYYY-MM-DD', true).isValid();
-  if (isUnixDate || isUtcDate) {
+  if (isUtcDate) {
     res.send({
-      "unix": moment(date).format('X'), "utc": moment(date).format('ddd, D MMM YYYY HH:mm:ss zz')
+      "unix": parseInt(moment(date).format('X'), 10), "utc": moment(date).format('ddd, D MMM YYYY HH:mm:ss') + " GMT"
     })
-  } else {
+  } else if (isUnixDate) {
+    let unixDate = date;
+    res.send({
+      "unix": parseInt(moment.unix(unixDate).format('X'), 10), "utc": moment.unix(unixDate).format('ddd, D MMM YYYY HH:mm:ss') + " GMT"
+    })
+  }
+  else {
     res.send({
       error: "Invalid Date"
     })
