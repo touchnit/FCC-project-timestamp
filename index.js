@@ -25,17 +25,22 @@ app.get("/api/hello", function (req, res) {
 });
 
 app.get("/api/:date?", function (req, res) {
-  let date = req.params.date
+  let date = parseInt(req.params.date);
   let isUnixDate = moment(date, 'X', true).isValid();
   let isUtcDate = moment(date, 'YYYY-MM-DD', true).isValid();
-  if (isUtcDate) {
+  if (date == "") {
     res.send({
-      "unix": parseInt(moment(date).format('X'), 10), "utc": moment(date).format('ddd, D MMM YYYY HH:mm:ss') + " GMT"
+      "unix": parseInt(moment().format('x'), 10), "utc": moment().format('ddd, D MMM YYYY HH:mm:ss') + " GMT"
+    })
+  }
+  else if (isUtcDate) {
+    res.send({
+      "unix": parseInt(moment(date).format('x'), 10), "utc": moment(date).format('ddd, D MMM YYYY HH:mm:ss') + " GMT"
     })
   } else if (isUnixDate) {
-    let unixDate = date;
+    let unixDate = date / 1000;
     res.send({
-      "unix": parseInt(moment.unix(unixDate).format('X'), 10), "utc": moment.unix(unixDate).format('ddd, D MMM YYYY HH:mm:ss') + " GMT"
+      "unix": parseInt(moment(date).format('x'), 10), "utc": moment.unix(unixDate).format('ddd, D MMM YYYY HH:mm:ss') + " GMT"
     })
   }
   else {
