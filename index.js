@@ -25,9 +25,9 @@ app.get("/api/hello", function (req, res) {
 });
 
 app.get("/api/:date?", function (req, res) {
-  let date = parseInt(req.params.date);
+  let date = req.params.date;
   let isUnixDate = moment(date, 'X', true).isValid();
-  let isUtcDate = moment(date, 'YYYY-MM-DD', true).isValid();
+  let isUtcDate = moment(date).isValid();
   if (!req.params.date) {
     res.send({
       "unix": parseInt(moment().format('x'), 10), "utc": moment().format('ddd, D MMM YYYY HH:mm:ss') + " GMT"
@@ -38,9 +38,9 @@ app.get("/api/:date?", function (req, res) {
       "unix": parseInt(moment(date).format('x'), 10), "utc": moment(date).format('ddd, D MMM YYYY HH:mm:ss') + " GMT"
     })
   } else if (isUnixDate) {
-    let unixDate = date / 1000;
+    let unixDate = parseInt(date / 1000);
     res.send({
-      "unix": parseInt(moment(date).format('x'), 10), "utc": moment.unix(unixDate).format('ddd, D MMM YYYY HH:mm:ss') + " GMT"
+      "unix": parseInt(moment.unix(unixDate).format('x'), 10), "utc": moment.unix(unixDate).format('ddd, D MMM YYYY HH:mm:ss') + " GMT"
     })
   }
   else {
