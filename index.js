@@ -28,7 +28,7 @@ app.get("/api/:date?", function (req, res) {
   let date = parseInt(req.params.date);
   let isUnixDate = moment(date, 'X', true).isValid();
   let isUtcDate = moment(date, 'YYYY-MM-DD', true).isValid();
-  if (date == "") {
+  if (!req.params.date) {
     res.send({
       "unix": parseInt(moment().format('x'), 10), "utc": moment().format('ddd, D MMM YYYY HH:mm:ss') + " GMT"
     })
