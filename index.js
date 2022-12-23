@@ -30,17 +30,17 @@ app.get("/api/:date?", function (req, res) {
   let isUtcDate = moment(date).isValid();
   if (!req.params.date) {
     res.send({
-      "unix": parseInt(moment().format('x'), 10), "utc": moment().format('ddd, D MMM YYYY HH:mm:ss') + " GMT"
+      "unix": parseInt(moment().format('x'), 10), "utc": moment().format('ddd, DD MMM YYYY HH:mm:ss') + " GMT"
     })
   }
   else if (isUtcDate) {
     res.send({
-      "unix": parseInt(moment(date).format('x'), 10), "utc": moment(date).format('ddd, D MMM YYYY HH:mm:ss') + " GMT"
+      "unix": parseInt(moment(date).format('x'), 10), "utc": moment(date).format('ddd, DD MMM YYYY HH:mm:ss') + " GMT"
     })
   } else if (isUnixDate) {
     let unixDate = parseInt(date / 1000);
     res.send({
-      "unix": parseInt(moment.unix(unixDate).format('x'), 10), "utc": moment.unix(unixDate).format('ddd, D MMM YYYY HH:mm:ss') + " GMT"
+      "unix": parseInt(moment.unix(unixDate).format('x'), 10), "utc": moment.unix(unixDate).format('ddd, DD MMM YYYY HH:mm:ss') + " GMT"
     })
   }
   else {
